@@ -25,18 +25,28 @@ Create Virtual Environment: Navigate to the folder and set up your Python enviro
 cd /home/pi/heatflux
 python3 -m venv env
 source env/bin/activate
-pip install pyserial influxdb
+pip install -r requirements.txt
 ```
 
 Configure Sensors: In readserial.py, edit the number of heatflux sensors used, and input their sensitivities (found on the calibration sheets that come with the sensors).
 
+Configure Database Credentials:** For security, database credentials are not hardcoded. Create a file named `database.ini` in the `/home/pi/heatflux` directory:
+```
+   nano /home/pi/heatflux/database.ini
+```
 Automate on Boot: To make sure the scripts are always running and restart automatically, the script_handler.sh file can be set to run on boot. First, give it executable permissions and fix line endings if transferred from Windows:
 ```
 sed -i -e 's/\r$//' /home/pi/heatflux/script_handler.sh
 sudo chmod +x /home/pi/heatflux/script_handler.sh
 ```
-Then, run sudo nano /etc/rc.local and add the following on the second to last line (before exit 0):
 
+Next, open the rc.local file:
+```
+sudo nano /etc/rc.local
+```
+
+Add the following command on the second to last line (immediately before exit 0):
 ```
 cd /home/pi/heatflux;./script_handler.sh &
 ```
+Reboot your Raspberry Pi. The data logger will automatically initialize the DAQ, create the local .csv backup, and begin pushing data to InfluxDB.
