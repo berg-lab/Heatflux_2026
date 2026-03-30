@@ -43,11 +43,8 @@ user = your_username
 password = your_password
 database = your_database
 ```
-Automate on Boot:
-```
-cd /home/pi/heatflux
-./script_handler.sh
-```
+Automation (Systemd Service):
+
 To ensure the scripts run in the background, start automatically on boot, and restart if they crash, configure a systemd service.
 
 Ensure the handler script has executable permissions and Unix line endings:
@@ -62,7 +59,6 @@ sudo nano /etc/systemd/system/heatflux.service
 ```
 Paste the following configuration into the file, save, and exit:
 ```
-Ini, TOML
 [Unit]
 Description=FluxTeq Heat Flux Data Logger
 After=network.target
@@ -89,3 +85,4 @@ You can check the status of your data logger at any time by running ```sudo syst
 
 
 Reboot your Raspberry Pi. The data logger will automatically initialize the DAQ, create the local .csv backup, and begin pushing data to InfluxDB.
+Once configured, simply reboot your Raspberry Pi. The data logger will automatically initialize the DAQ, create the local .csv backup, and begin pushing data to InfluxDB.
