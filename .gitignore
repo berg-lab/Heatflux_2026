@@ -1,0 +1,13 @@
+# Ignore the Python virtual environment
+env/
+# Ignore database credentials
+database.ini
+# Ignore local sensor data logs and temporary files
+data/
+temp_heatflux/
+t.csv
+*.csv
+
+# Ignore Python cache files
+__pycache__/
+*.pyc

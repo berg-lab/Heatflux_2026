@@ -8,6 +8,8 @@ from influxdb import InfluxDBClient
 import time
 from pathlib import Path
 import subprocess
+import configparser
+import os
 
 # get hostname of Pi to identify which one it is
 hostname = subprocess.check_output('hostname', shell=True).strip()
@@ -16,11 +18,23 @@ now = datetime.now()   # get current date/time
 logging_start_time = now.strftime('%Y-%m-%d_%H%M%S')    # format datetime to use in filename
 temp_data_dir = '/var/tmp/temp_heatflux'
 data_dir = '/home/pi/heatflux/data'
-server = 'data.elemental-platform.com'
-influx_port = 8086
-user = 'berg'
-passwd = 'Validation132'
-db = 'berg'
+config_path = '/home/pi/heatflux/database.ini'
+
+# Load database configurations safely from INI file
+config = configparser.ConfigParser()
+
+
+if not os.path.exists(config_path):
+    print(f"CRITICAL ERROR: Configuration file not found at {config_path}")
+    exit(1)
+
+config.read(config_path)
+
+server = config['influxdb']['server']
+influx_port = int(config['influxdb']['port'])
+user = config['influxdb']['user']
+passwd = config['influxdb']['password']
+db = config['influxdb']['database']
 
 time.sleep(10) # sleep 10 seconds to let data come in first
 
