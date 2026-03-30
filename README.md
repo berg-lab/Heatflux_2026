@@ -34,19 +34,58 @@ Configure Database Credentials:** For security, database credentials are not har
 ```
 nano /home/pi/heatflux/database.ini
 ```
-Automate on Boot: To make sure the scripts are always running and restart automatically, the script_handler.sh file can be set to run on boot. First, give it executable permissions and fix line endings if transferred from Windows:
+Paste the following template and fill in your InfluxDB (v1.x) details:
+```
+[influxdb]
+server = 192.168.x.x
+port = 8086
+user = your_username
+password = your_password
+database = your_database
+```
+Automate on Boot:
+```
+cd /home/pi/heatflux
+./script_handler.sh
+```
+To ensure the scripts run in the background, start automatically on boot, and restart if they crash, configure a systemd service.
+
+Ensure the handler script has executable permissions and Unix line endings:
+
 ```
 sed -i -e 's/\r$//' /home/pi/heatflux/script_handler.sh
 sudo chmod +x /home/pi/heatflux/script_handler.sh
 ```
+Create a new service file:
+```
+sudo nano /etc/systemd/system/heatflux.service
+```
+Paste the following configuration into the file, save, and exit:
+```
+Ini, TOML
+[Unit]
+Description=FluxTeq Heat Flux Data Logger
+After=network.target
 
-Next, open the rc.local file:
-```
-sudo nano /etc/rc.local
-```
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/heatflux
+ExecStart=/home/pi/heatflux/script_handler.sh
+Restart=always
+RestartSec=10
 
-Add the following command on the second to last line (immediately before exit 0):
+[Install]
+WantedBy=multi-user.target
 ```
-cd /home/pi/heatflux;./script_handler.sh &
+Enable and start the service:
+
 ```
+sudo systemctl daemon-reload
+sudo systemctl enable heatflux.service
+sudo systemctl start heatflux.service
+```
+You can check the status of your data logger at any time by running ```sudo systemctl status heatflux.service```
+
+
 Reboot your Raspberry Pi. The data logger will automatically initialize the DAQ, create the local .csv backup, and begin pushing data to InfluxDB.
