@@ -32,7 +32,7 @@ Configure Sensors: In readserial.py, edit the number of heatflux sensors used, a
 
 Configure Database Credentials:** For security, database credentials are not hardcoded. Create a file named `database.ini` in the `/home/pi/heatflux` directory:
 ```
-   nano /home/pi/heatflux/database.ini
+nano /home/pi/heatflux/database.ini
 ```
 Automate on Boot: To make sure the scripts are always running and restart automatically, the script_handler.sh file can be set to run on boot. First, give it executable permissions and fix line endings if transferred from Windows:
 ```
