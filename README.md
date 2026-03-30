@@ -15,7 +15,7 @@ Modern Raspberry Pi OS environments require virtual environments to install Pyth
 sudo apt-get update
 sudo apt-get install python3-venv
 ```
-Instructions
+## Instructions
 Network Setup: Set WiFi SSID and password in the wpa_supplicant.conf file. Place this file in the boot partition on the microSD card. Add an empty ssh file as well to enable the SSH server on the Pi.
 
 Transfer Files: Copy the heatflux folder to the /home/pi/ directory on the Raspberry Pi.
