@@ -4,6 +4,7 @@
 # Raspberry Pi-based data logger for FluxTeq sensors
 
 The [FluxTeq COMPAQ DAQ](https://www.fluxteq.com/product-page/compaq-daq) has a standard USB interface that can be plugged into a Raspberry Pi. This can then be used as a data logger to store data locally on the Pi's microSD card, or upload to an InfluxDB database on a remote server. 
+![rpi_compaqdaq_usb](https://github.com/user-attachments/assets/5d8756cf-9c9a-4b73-8511-91ebf86afd58)
 
 This repository has been updated to support **Python 3**, isolated virtual environments (`venv`), dynamic sensor counting, and real-time 1-second logging.
 
